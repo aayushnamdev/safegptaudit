@@ -3999,24 +3999,25 @@
           <div class="gated-tool-name">${t.name}</div>
           <div class="gated-tool-desc">${t.desc}</div>
         </div>
-        content = `< div class= "gated-tool-grid" > ${ staticCards }</div > `;
+        `).join('');
+        content = `<div class="gated-tool-grid">${staticCards}</div>`;
       }
       gatedSec.innerHTML = `
-        < div class= "gated-panel" >
+        <div class="gated-panel">
         <div class="gated-header">
           <div class="gated-title"><span class="gated-title-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span> ${isDual ? 'Deep Scan Findings' : 'Go Deeper'}</div>
           <span class="gated-label">${isDual ? 'Locked' : 'Optional'}</span>
         </div>
-          ${ content }
-        < div class= "gated-cta-row" >
+          ${content}
+        <div class="gated-cta-row">
             <div class="gated-cta-copy">
               ${isDual
           ? `<strong>Your source scan found ${gatedFindings.length} additional issue${gatedFindings.length !== 1 ? 's' : ''}.</strong> A full expert audit typically uncovers 8–15× more vulnerabilities.`
           : `<strong>Provide your GitHub repo URL or Supabase credentials — still free.</strong> Or get a full expert audit with remediation guidance.`}
             </div>
             <a class="cta-btn" href="${TALLY_URL}" target="_blank" rel="noopener">Get the Full Audit →</a>
-          </div >
-        </div >
+          </div>
+        </div>
           `;
       gatedSec.classList.add('visible');
     }
@@ -4036,11 +4037,11 @@
       if (status === 429) {
         const detail = data.detail;
         const msg = (detail && detail.error) ? detail.error : (typeof detail === 'string' ? detail : '3 free scans per day.');
-        return `Rate limit reached: ${ msg } `;
+        return `Rate limit reached: ${msg}`;
       }
       if (status === 400) return data.detail || 'Invalid URL. Please check it and try again.';
       if (status === 409) return 'A scan is already running for this IP. Please wait.';
-      return data.detail || `Unexpected error(${ status }).Please try again.`;
+      return data.detail || `Unexpected error (${status}). Please try again.`;
     }
     function copyLink() {
       navigator.clipboard.writeText(window.location.href).then(() => {
