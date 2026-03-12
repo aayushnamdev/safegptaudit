@@ -2573,7 +2573,7 @@
           <form id="scan-form" onsubmit="return false;">
             <div class="input-row">
               <div class="url-input-wrap">
-                <input type="url" id="url-input" class="url-input" placeholder="https://your-app.lovable.app"
+                <input type="text" id="url-input" class="url-input" placeholder="https://your-app.lovable.app"
                   autocomplete="off" spellcheck="false" required>
               </div>
               <button class="scan-btn" id="scan-btn" type="submit">
@@ -3438,12 +3438,11 @@
     ═══════════════════════════════════════ */
     scanForm.addEventListener('submit', async () => {
       if (appState === 'SUBMITTING' || appState === 'SCANNING') return;
-      const rawUrl = urlInput.value.trim();
+      let rawUrl = urlInput.value.trim();
       if (!rawUrl) { showFormError('Please enter a URL to scan.'); return; }
       if (!rawUrl.startsWith('http://') && !rawUrl.startsWith('https://')) {
-        showFormError('URL must start with https:// or http://');
-        urlInput.classList.add('error');
-        return;
+        rawUrl = 'https://' + rawUrl;
+        urlInput.value = rawUrl;
       }
       await startScan(rawUrl);
     });
