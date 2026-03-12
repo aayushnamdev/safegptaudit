@@ -3464,15 +3464,20 @@
       };
 
       let resp, data;
-      try {
-        resp = await fetch(`${API_BASE}/api/scan`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
-        });
-        data = await resp.json();
-      } catch (err) {
-        showError('Scanner is temporarily unavailable. Please wait a moment and try again.');
-        setState('ERROR');
-        return;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          if (attempt > 0) await new Promise(r => setTimeout(r, 2000));
+          resp = await fetch(`${API_BASE}/api/scan`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+          });
+          data = await resp.json();
+          break;
+        } catch (err) {
+          if (attempt < 1) continue;
+          showError('Scanner is temporarily unavailable. Please wait a moment and try again.');
+          setState('ERROR');
+          return;
+        }
       }
 
       if (!resp.ok) {
