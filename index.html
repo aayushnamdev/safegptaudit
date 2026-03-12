@@ -2718,7 +2718,6 @@
             <div class="terminal-dot terminal-dot--green"></div>
           </div>
           <div class="results-topbar-label" id="results-topbar-label">Scan complete</div>
-          <button id="rescan-btn" onclick="rescan()" style="margin-left:auto;background:none;border:1px solid rgba(255,255,255,0.2);color:inherit;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:0.8rem;opacity:0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">↺ Rescan</button>
         </div>
         <!-- Grade -->
         <section id="grade-section">
@@ -3448,11 +3447,7 @@
       await startScan(rawUrl);
     });
 
-    function rescan() {
-      if (scannedUrl) startScan(scannedUrl, true);
-    }
-
-    async function startScan(url, force = false) {
+    async function startScan(url) {
       setState('SUBMITTING');
       errorBanner.classList.remove('visible');
       scannedUrl = url;
@@ -3462,7 +3457,7 @@
 
       const body = {
         url,
-        force,
+        force: true,
         repo_url: repoInput.value.trim() || null,
         supabase_url: supabaseUrl.value.trim() || null,
         supabase_key: supabaseKey.value.trim() || null,
