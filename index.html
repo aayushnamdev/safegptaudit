@@ -3470,7 +3470,7 @@
         });
         data = await resp.json();
       } catch (err) {
-        showError('Could not reach the scanner. Make sure the API is running at ' + API_BASE);
+        showError('Scanner is temporarily unavailable. Please wait a moment and try again.');
         setState('ERROR');
         return;
       }
